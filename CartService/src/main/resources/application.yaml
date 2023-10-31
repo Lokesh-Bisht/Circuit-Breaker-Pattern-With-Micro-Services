@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: ${cartServiceAppProfile}
+  application:
+    name: Cart-Service
+redis:
+  host: ${redisHost}
+  port: ${redisPort}
+  database: ${redisDatabase}
+server:
+  servlet:
+    context-path: /cart_service
+  port: ${cartServiceAppPort}
