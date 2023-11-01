@@ -2,9 +2,9 @@ package dev.lokeshbisht.CartService.model;
 
 import dev.lokeshbisht.CartService.dto.cart.ItemsDto;
 import dev.lokeshbisht.CartService.enums.CustomerType;
-import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.util.Date;
