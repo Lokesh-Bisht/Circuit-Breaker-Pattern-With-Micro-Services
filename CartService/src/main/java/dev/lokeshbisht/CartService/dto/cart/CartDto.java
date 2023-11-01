@@ -3,12 +3,14 @@ package dev.lokeshbisht.CartService.dto.cart;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.lokeshbisht.CartService.enums.CustomerType;
+import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
 
 import static dev.lokeshbisht.CartService.constants.JsonConstants.ISO8601;
 
+@Data
 public class CartDto {
 
     @JsonProperty("customer_id")
