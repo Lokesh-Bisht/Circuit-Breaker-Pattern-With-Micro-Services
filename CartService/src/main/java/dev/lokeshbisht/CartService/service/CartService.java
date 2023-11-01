@@ -6,4 +6,5 @@ import dev.lokeshbisht.CartService.model.Cart;
 public interface CartService {
 
     Cart createCart(CartDto cartDto);
+    Cart getCartByCartId(String cartId);
 }
