@@ -1,6 +1,7 @@
 package dev.lokeshbisht.CartService.service.impl;
 
 import dev.lokeshbisht.CartService.dto.cart.CartDto;
+import dev.lokeshbisht.CartService.exceptions.CartNotFoundException;
 import dev.lokeshbisht.CartService.mapper.CartMapper;
 import dev.lokeshbisht.CartService.model.Cart;
 import dev.lokeshbisht.CartService.repository.CartRepository;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -29,5 +31,15 @@ public class CartServiceImpl implements CartService {
         Cart cart = cartMapper.toCart(cartDto);
         cart.setCreatedAt(new Date());
         return cartRepository.save(cart);
+    }
+
+    @Override
+    public Cart getCartByCartId(String cartId) {
+        logger.info("Get cart: {}", cartId);
+        Optional<Cart> cart = cartRepository.findById(cartId);
+        if (cart.isEmpty()) {
+            throw new CartNotFoundException("Cart not found.");
+        }
+        return cart.get();
     }
 }

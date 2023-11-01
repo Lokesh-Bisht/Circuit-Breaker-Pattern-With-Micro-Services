@@ -18,4 +18,9 @@ public class CartController {
     public Cart createCart(@RequestBody CartDto cartDto) {
         return cartService.createCart(cartDto);
     }
+
+    @GetMapping("/cart/{cartId}")
+    public Cart getCart(@PathVariable String cartId) {
+        return cartService.getCartByCartId(cartId);
+    }
 }
