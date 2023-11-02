@@ -1,6 +1,6 @@
 package dev.lokeshbisht.CartService.controller;
 
-import dev.lokeshbisht.CartService.dto.cart.ErrorResponseDto;
+import dev.lokeshbisht.CartService.dto.ErrorResponseDto;
 import dev.lokeshbisht.CartService.enums.ErrorCode;
 import dev.lokeshbisht.CartService.exceptions.CartNotFoundException;
 import lombok.extern.slf4j.Slf4j;
