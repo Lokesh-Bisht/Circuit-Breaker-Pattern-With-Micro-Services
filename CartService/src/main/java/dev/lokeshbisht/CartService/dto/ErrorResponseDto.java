@@ -1,4 +1,4 @@
-package dev.lokeshbisht.CartService.dto.cart;
+package dev.lokeshbisht.CartService.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.lokeshbisht.CartService.enums.ErrorCode;
