@@ -1,5 +1,6 @@
 package dev.lokeshbisht.CatalogService.controller;
 
+import dev.lokeshbisht.CatalogService.dto.ApiResponseDto;
 import dev.lokeshbisht.CatalogService.dto.ProductDto;
 import dev.lokeshbisht.CatalogService.entity.Product;
 import dev.lokeshbisht.CatalogService.service.ProductService;
@@ -17,5 +18,10 @@ public class ProductController {
     @PostMapping("/product")
     public Product createProduct(@RequestBody ProductDto productDto) {
         return productService.createProduct(productDto);
+    }
+
+    @GetMapping("/product/{productId}")
+    public ApiResponseDto<Product> getProductByProductId(@PathVariable Long productId) {
+        return productService.getProductByProductId(productId);
     }
 }
