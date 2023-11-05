@@ -55,4 +55,15 @@ public class ProductServiceImpl implements ProductService {
         }
         return generateApiResponseDto(product.get(), startTime);
     }
+
+    @Override
+    public ApiResponseDto<Product> getProductByProductCode(String productCode) {
+        logger.info("Get product by product_code: {}", productCode);
+        double startTime = System.currentTimeMillis();
+        Product product = productRepository.findByProductCode(productCode);
+        if (product == null) {
+            throw new ProductNotFoundException("Product not found!");
+        }
+        return generateApiResponseDto(product, startTime);
+    }
 }
