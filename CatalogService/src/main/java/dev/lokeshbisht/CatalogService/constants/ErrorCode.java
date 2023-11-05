@@ -1,5 +1,7 @@
 package dev.lokeshbisht.CatalogService.constants;
 
 public enum ErrorCode {
-    PRODUCT_NOT_FOUND
+    INVALID_RESOURCE,
+    INTERNAL_SERVER_ERROR,
+    PRODUCT_NOT_FOUND,
 }
