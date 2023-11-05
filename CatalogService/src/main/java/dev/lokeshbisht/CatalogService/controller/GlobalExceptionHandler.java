@@ -2,6 +2,7 @@ package dev.lokeshbisht.CatalogService.controller;
 
 import dev.lokeshbisht.CatalogService.constants.ErrorCode;
 import dev.lokeshbisht.CatalogService.dto.ErrorResponseDto;
+import dev.lokeshbisht.CatalogService.exceptions.InvalidResourceException;
 import dev.lokeshbisht.CatalogService.exceptions.ProductNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(InvalidResourceException.class)
+    public ResponseEntity<ErrorResponseDto> handleInvalidResourceException(InvalidResourceException ex) {
+        log.error("InvalidResourceException: {}", ex.getMessage());
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(ErrorCode.INVALID_RESOURCE, ex.getMessage());
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleAllExceptions(Exception ex) {
