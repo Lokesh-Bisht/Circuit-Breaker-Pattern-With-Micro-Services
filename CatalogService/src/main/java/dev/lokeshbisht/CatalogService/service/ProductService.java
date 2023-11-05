@@ -8,4 +8,5 @@ public interface ProductService {
 
     Product createProduct(ProductDto productDto);
     ApiResponseDto<Product> getProductByProductId(Long productId);
+    ApiResponseDto<Product> getProductByProductCode(String productCode);
 }

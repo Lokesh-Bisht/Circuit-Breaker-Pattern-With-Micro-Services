@@ -24,4 +24,9 @@ public class ProductController {
     public ApiResponseDto<Product> getProductByProductId(@PathVariable Long productId) {
         return productService.getProductByProductId(productId);
     }
+
+    @GetMapping("/product/code/{productCode}")
+    public ApiResponseDto<Product> getProductByProductCode(@PathVariable String productCode) {
+        return productService.getProductByProductCode(productCode);
+    }
 }
