@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.UUID;
+
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -18,5 +20,16 @@ public class GlobalExceptionHandler {
         log.error("ProductNotFoundException: {}", ex.getMessage());
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(ErrorCode.PRODUCT_NOT_FOUND, ex.getMessage());
         return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponseDto> handleAllExceptions(Exception ex) {
+        UUID uuid = UUID.randomUUID();
+        String message = String.format("Unhandled exception, logged against error id: %s", uuid);
+        log.error("Exception: {} {}", message, ex.getClass().getName(), ex);
+        log.error(ex.getMessage(), ex);
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(ErrorCode.INTERNAL_SERVER_ERROR, message);
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }
