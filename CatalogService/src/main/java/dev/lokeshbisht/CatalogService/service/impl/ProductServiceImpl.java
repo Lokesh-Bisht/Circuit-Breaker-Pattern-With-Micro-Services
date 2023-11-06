@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -65,5 +66,23 @@ public class ProductServiceImpl implements ProductService {
             throw new ProductNotFoundException("Product not found!");
         }
         return generateApiResponseDto(product, startTime);
+    }
+
+    private ApiResponseDto<List<Product>> generateApiResponseDto(List<Product>products, double startTime) {
+        MetaDataDto metaDataDto = MetaDataDto.builder()
+            .page(1)
+            .size(1)
+            .total(1)
+            .took(System.currentTimeMillis() - startTime)
+            .build();
+        return new ApiResponseDto<>(products, "OK", null, metaDataDto);
+    }
+
+    @Override
+    public ApiResponseDto<List<Product>> getProducts(List<String> productCodeList) {
+        logger.info("Find all products in list: {}", productCodeList.toString());
+        double startTime = System.currentTimeMillis();
+        List<Product> products = productRepository.findByProductCodeIn(productCodeList);
+        return generateApiResponseDto(products, startTime);
     }
 }
