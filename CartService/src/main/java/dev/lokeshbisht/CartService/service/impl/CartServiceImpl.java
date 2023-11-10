@@ -1,5 +1,6 @@
 package dev.lokeshbisht.CartService.service.impl;
 
+import dev.lokeshbisht.CartService.constants.MessageTemplates;
 import dev.lokeshbisht.CartService.dto.ApiResponseDto;
 import dev.lokeshbisht.CartService.dto.MetaDataDto;
 import dev.lokeshbisht.CartService.dto.cart.CartDto;
@@ -12,19 +13,20 @@ import dev.lokeshbisht.CartService.mapper.CartMapper;
 import dev.lokeshbisht.CartService.model.Cart;
 import dev.lokeshbisht.CartService.repository.CartRepository;
 import dev.lokeshbisht.CartService.service.CartService;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -51,6 +53,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker(name = "catalogServiceBreaker", fallbackMethod = "catalogFallback")
     public ApiResponseDto<CartInfoDto> getCartDetails(String cartId) {
         logger.info("Get cart: {}", cartId);
         double startTime = System.currentTimeMillis();
@@ -86,5 +89,17 @@ public class CartServiceImpl implements CartService {
             .took(System.currentTimeMillis() - startTime)
             .build();
         return new ApiResponseDto<>(cartInfoDto, "OK", null, metaDataDto);
+    }
+
+    private ApiResponseDto<CartInfoDto> catalogFallback(String cartId, ResourceAccessException ex) {
+        logger.error("Executing catalog fallback because catalog service is down: {} {}", ex.getMessage(), ex.getClass());
+        MetaDataDto metaDataDto = MetaDataDto.builder().build();
+        return new ApiResponseDto<CartInfoDto>(null, "OK", new String[]{MessageTemplates.CATALOG_SERVICE_DOWN}, metaDataDto);
+    }
+
+    private ApiResponseDto<CartInfoDto> catalogFallback(String cartId, CallNotPermittedException ex) {
+        logger.error("Executing catalog fallback because catalog service is down: {} {}", ex.getMessage(), ex.getClass());
+        MetaDataDto metaDataDto = MetaDataDto.builder().build();
+        return new ApiResponseDto<CartInfoDto>(null, "OK", new String[]{MessageTemplates.CATALOG_SERVICE_DOWN}, metaDataDto);
     }
 }

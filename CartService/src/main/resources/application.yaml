@@ -28,10 +28,12 @@ resilience4j:
       catalogServiceBreaker:
         registerHealthIndicator: true
         eventConsumerBufferSize: 10
-        failureRateThreshold: 50
+        failureRateThreshold: 5
         minimumNumberOfCalls: 3
         automaticTransitionFromOpenToHalfOpenEnabled: true
-        waitDurationInOpenState: 5s
+        waitDurationInOpenState: 180s
         permittedNumberOfCallsInHalfOpenState: 3
         slidingWindowSize: 10
         slidingWindowType: COUNT_BASED
+        ignoreExceptions:
+          - dev.lokeshbisht.CartService.exceptions.CartNotFoundException
