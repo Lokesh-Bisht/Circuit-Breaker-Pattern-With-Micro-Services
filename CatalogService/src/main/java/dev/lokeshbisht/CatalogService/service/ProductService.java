@@ -11,5 +11,5 @@ public interface ProductService {
     Product createProduct(ProductDto productDto);
     ApiResponseDto<Product> getProductByProductId(Long productId);
     ApiResponseDto<Product> getProductByProductCode(String productCode);
-    ApiResponseDto<List<Product>>getProducts(List<String> productCodeList);
+    ApiResponseDto<List<ProductDto>>getProducts(List<String> productCodeList);
 }
