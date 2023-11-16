@@ -30,7 +30,12 @@ public class CartController {
     }
 
     @GetMapping("/cart/{cartId}/details")
-    public ApiResponseDto<CartInfoDto> getCart(@PathVariable String cartId) {
+    public ApiResponseDto<CartInfoDto> getCartDetails(@PathVariable String cartId) {
         return cartService.getCartDetails(cartId);
+    }
+
+    @GetMapping("/cart/{cartID}")
+    public Cart getCart(@PathVariable String cartId) {
+        return cartService.getCart(cartId);
     }
 }

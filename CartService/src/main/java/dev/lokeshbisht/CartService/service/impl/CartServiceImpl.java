@@ -102,4 +102,14 @@ public class CartServiceImpl implements CartService {
         MetaDataDto metaDataDto = MetaDataDto.builder().build();
         return new ApiResponseDto<CartInfoDto>(null, "OK", new String[]{MessageTemplates.CATALOG_SERVICE_DOWN}, metaDataDto);
     }
+
+    @Override
+    public Cart getCart(String cartId) {
+        logger.info("Get cart: {}", cartId);
+        Optional<Cart> cart = cartRepository.findById(cartId);
+        if (cart.isEmpty()) {
+            throw new CartNotFoundException("Cart not found.");
+        }
+        return cart.get();
+    }
 }
