@@ -9,4 +9,5 @@ public interface CartService {
 
     Cart createCart(CartDto cartDto);
     ApiResponseDto<CartInfoDto> getCartDetails(String cartId);
+    Cart getCart(String cartId);
 }
