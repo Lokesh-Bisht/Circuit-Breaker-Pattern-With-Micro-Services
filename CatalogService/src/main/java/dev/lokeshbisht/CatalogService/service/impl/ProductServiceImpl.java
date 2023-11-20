@@ -1,3 +1,9 @@
+/**
+ * Copyright (C) 2023 Lokesh Bisht
+ *
+ * Licensed under the Apache Software License version 2.0, available at http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package dev.lokeshbisht.CatalogService.service.impl;
 
 import dev.lokeshbisht.CatalogService.dto.ApiResponseDto;
@@ -16,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -68,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
         return generateApiResponseDto(product, startTime);
     }
 
-    private ApiResponseDto<List<Product>> generateApiResponseDto(List<Product>products, double startTime) {
+    private ApiResponseDto<List<ProductDto>> generateApiResponseDto(List<ProductDto>products, double startTime) {
         MetaDataDto metaDataDto = MetaDataDto.builder()
             .page(1)
             .size(1)
@@ -79,10 +86,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ApiResponseDto<List<Product>> getProducts(List<String> productCodeList) {
+    public ApiResponseDto<List<ProductDto>> getProducts(List<String> productCodeList) {
         logger.info("Find all products in list: {}", productCodeList.toString());
         double startTime = System.currentTimeMillis();
-        List<Product> products = productRepository.findByProductCodeIn(productCodeList);
+        List<ProductDto> products = productRepository.findByProductCodeIn(productCodeList).stream().map(productMapper::toProductDto).collect(Collectors.toList());
         return generateApiResponseDto(products, startTime);
     }
 }
