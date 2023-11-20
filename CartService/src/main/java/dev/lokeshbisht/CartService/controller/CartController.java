@@ -1,17 +1,19 @@
+/**
+ * Copyright (C) 2023 Lokesh Bisht
+ *
+ * Licensed under the Apache Software License version 2.0, available at http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package dev.lokeshbisht.CartService.controller;
 
-import dev.lokeshbisht.CartService.constants.MessageTemplates;
 import dev.lokeshbisht.CartService.dto.ApiResponseDto;
-import dev.lokeshbisht.CartService.dto.MetaDataDto;
 import dev.lokeshbisht.CartService.dto.cart.CartDto;
 import dev.lokeshbisht.CartService.dto.cart.CartInfoDto;
 import dev.lokeshbisht.CartService.model.Cart;
 import dev.lokeshbisht.CartService.service.CartService;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
